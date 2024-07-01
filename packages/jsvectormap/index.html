@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Jsvectormap (Workspace)</title>
+    <link rel="stylesheet" href="./assets/css/style.css" />
+    <link rel="stylesheet" href="./dist/css/jsvectormap.css" />
+    <script src="/dist/js/jsvectormap.js"></script>
+    <script src="./src/maps/world-merc.js"></script>
+</head>
+<body>
+  <div class="workspace-wrapper">
+    <header>
+      <div>
+        <h1>Jsvectormap workspace.</h1>
+        <p>Here you can test the maps and find out how it works if you want to contribute to Jsvectormap fork this repository<br>then clone it, commit your changes, push it to your forked version and finally you can open a pull request.</p>
+      </div>
+      <a href="#">Github Repository</a>
+    </header>
+    <div id="map"></div>
+  </div>
+
+  <script>
+    var markers = [
+      { name: 'Russia', coords: [61, 105] },
+      { name: 'Geenland', coords: [72, -42] },
+      { name: 'Canada', coords: [56.1304, -106.3468] },
+      { name: 'Palestine', coords: [31.5, 34.8] },
+      { name: 'Brazil', coords: [-14.2350, -51.9253] },
+    ];
+
+    var map = new jsVectorMap({
+      map: 'world_merc',
+      selector: document.querySelector('#map'),
+      zoomButtons: false,
+
+      regionsSelectable: true,
+      markersSelectable: true,
+      markersSelectableOne: true,
+
+      regionStyle: {
+        initial: { fill: '#d1d5db' }
+      },
+
+      // Labels
+      labels: {
+        markers: {
+          render: function(marker) {
+            return marker.name
+          },
+        },
+      },
+
+      // Marker and label style
+      markers: markers,
+      markerStyle: { initial: { fill: '#66F' } },
+
+      // Event handling
+      onLoaded: function(map) {
+        console.log(map);
+      },
+      onViewportChange: function(x, y, z) {
+        console.log(x, y, z);
+      },
+      onRegionSelected: function (index, isSelected, selectedRegions) {
+        console.log(index, isSelected, selectedRegions)
+      },
+      onRegionTooltipShow: function (event, tooltip, index) {
+        console.log(tooltip, index)
+        console.log(tooltip);
+
+        tooltip.css({ backgroundColor: 'white', color: '#35373e' }).text(
+          tooltip.text() + ' (Hello World `region`)'
+        )
+      },
+      onMarkerSelected: function (code, isSelected, selectedMarkers) {
+        console.log(code, isSelected, selectedMarkers)
+      },
+      onMarkerTooltipShow: function (event, tooltip, code) {
+        tooltip.text(
+          tooltip.text() + ' (Hello World (marker))'
+        )
+      },
+    })
+  </script>
+</body>
+</html>
